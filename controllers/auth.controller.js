@@ -40,10 +40,10 @@ export const google = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (user) {
       const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-      // console.log(token)
+      console.log(accessToken)
       const { password: pass, ...rest } = user._doc;
       res
-        .cookie('access_token', token, { httpOnly: true })
+        .cookie('access_token', accessToken, { httpOnly: true })
         .status(200)
         .json({...rest, accessToken});
     } else {
@@ -63,7 +63,7 @@ export const google = async (req, res, next) => {
       const accessToken = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
       res
-        .cookie('access_token', token, { httpOnly: true })
+        .cookie('access_token', accessToken, { httpOnly: true })
         .status(200)
         .json({...rest, accessToken});
     }
